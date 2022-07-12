@@ -114,13 +114,6 @@ pnpm lint
 - `types` 类型定义文件更改
 - `wip` 开发中
 
-## 可有可无的群
-
-QQ 群：1014374415（左）&& 加我微信，拉你进微信群（右）
-
-![qq.png](https://github.com/un-pany/v3-admin-vite/blob/main/src/assets/docs/qq.png)
-![wechat.png](https://github.com/un-pany/v3-admin-vite/blob/main/src/assets/docs/wechat.png)
-
 ## 📄 License
 
 [MIT](https://github.com/un-pany/v3-admin-vite/blob/main/LICENSE)
