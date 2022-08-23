@@ -1,24 +1,23 @@
 import router from "@/router"
-import { RouteLocationNormalized } from "vue-router"
 import { useUserStoreHook } from "@/store/modules/user"
 import { usePermissionStoreHook } from "@/store/modules/permission"
 import { ElMessage } from "element-plus"
 import { whiteList } from "@/config/white-list"
-import { getToken } from "@/utils/cookies"
+import { getToken } from "@/utils/cache/cookies"
 import asyncRouteSettings from "@/config/async-route"
 import NProgress from "nprogress"
 import "nprogress/nprogress.css"
 
 NProgress.configure({ showSpinner: false })
 
-router.beforeEach(async (to: RouteLocationNormalized, _: RouteLocationNormalized, next: any) => {
+router.beforeEach(async (to, _from, next) => {
   NProgress.start()
   const userStore = useUserStoreHook()
   const permissionStore = usePermissionStoreHook()
   // 判断该用户是否登录
   if (getToken()) {
     if (to.path === "/login") {
-      // 如果登录，并准备进入 Login 页面，则重定向到主页
+      // 如果已经登录，并准备进入 Login 页面，则重定向到主页
       next({ path: "/" })
       NProgress.done()
     } else {

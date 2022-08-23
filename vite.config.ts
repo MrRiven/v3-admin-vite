@@ -1,14 +1,17 @@
-import { UserConfigExport } from "vite"
+import { UserConfigExport, loadEnv } from "vite"
+import type { ConfigEnv } from "vite"
 import path, { resolve } from "path"
 import vue from "@vitejs/plugin-vue"
 import { createSvgIconsPlugin } from "vite-plugin-svg-icons"
-import Unocss from "unocss/vite"
+import UnoCSS from "unocss/vite"
 
-/** 配置项文档：https://vitejs.dev/config */
-export default (): UserConfigExport => {
+/** 配置项文档：https://cn.vitejs.dev/config */
+export default (configEnv: ConfigEnv): UserConfigExport => {
+  const viteEnv = loadEnv(configEnv.mode, process.cwd()) as ImportMetaEnv
+  const { VITE_PUBLIC_PATH } = viteEnv
   return {
     /** 打包时根据实际情况修改 base */
-    base: "./",
+    base: VITE_PUBLIC_PATH,
     resolve: {
       alias: {
         /** @ 符号指向 src 目录 */
@@ -40,7 +43,6 @@ export default (): UserConfigExport => {
       // }
     },
     build: {
-      brotliSize: false,
       /** 消除打包大小超过 500kb 警告 */
       chunkSizeWarningLimit: 2000,
       /** Vite 2.6.x 以上需要配置 minify: "terser", terserOptions 才能生效 */
@@ -52,7 +54,7 @@ export default (): UserConfigExport => {
           drop_debugger: true,
           pure_funcs: ["console.log"]
         },
-        output: {
+        format: {
           /** 删除注释 */
           comments: false
         }
@@ -68,8 +70,8 @@ export default (): UserConfigExport => {
         iconDirs: [path.resolve(process.cwd(), "src/icons/svg")],
         symbolId: "icon-[dir]-[name]"
       }),
-      /** Unocss */
-      Unocss()
+      /** UnoCSS */
+      UnoCSS()
       /** 自动按需引入 (已更改为完整引入，所以注释了) */
       // AutoImport({
       //   dts: "./types/auto-imports.d.ts",
